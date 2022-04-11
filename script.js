@@ -78,7 +78,14 @@ function startQuiz() {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
   });
-  if (userName.value && email.value) {
+
+  var isEmailValid = false
+  var mailFormat = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  if (email.value.match(mailFormat)) {
+    isEmailValid = true
+  }
+
+  if (userName.value && email.value && isEmailValid) {
     logIn.style.display = "none";
     quiz.style.display = "block";
     nextQuestion();
@@ -169,32 +176,32 @@ function showResult() {
   for (i = 0; i < questionDB.length; i++) {
     container.innerHTML +=
       `<div class="question mt-5" id="question">
-        <span>` + questionDB[i].question + `</span>
-      </div>
-      <div class="icon d-flex justify-content-end" id="icon` + i + `"></div>
-      <div class="option-list">
+      <span>` + questionDB[i].question + `</span>
+    </div>
+    <div class="icon d-flex justify-content-end" id="icon` + i + `"></div>
+    <div class="option-list">
 
-        <div class="option my-3">
-          <div class="label" id="label` + (1 + 4 * i) + `">
-            <span>` + questionDB[i].options[0] + `</span>
-          </div>
+      <div class="option my-3">
+        <div class="label" id="label` + (1 + 4 * i) + `">
+          <span>` + questionDB[i].options[0] + `</span>
         </div>
-        <div class="option my-3">
-          <div class="label" id="label` + (2 + 4 * i) + `">
-            <span>` + questionDB[i].options[1] + `</span>
-          </div>
+      </div>
+      <div class="option my-3">
+        <div class="label" id="label` + (2 + 4 * i) + `">
+          <span>` + questionDB[i].options[1] + `</span>
         </div>
-        <div class="option my-3">
-          <div class="label" id="label` + (3 + 4 * i) + `">
-            <span>` + questionDB[i].options[2] + `</span>
-          </div>
+      </div>
+      <div class="option my-3">
+        <div class="label" id="label` + (3 + 4 * i) + `">
+          <span>` + questionDB[i].options[2] + `</span>
         </div>
-        <div class="option my-3">
-          <div class="label" id="label` + (4 + 4 * i) + `">
-            <span>` + questionDB[i].options[3] + `</span>
-          </div>
+      </div>
+      <div class="option my-3">
+        <div class="label" id="label` + (4 + 4 * i) + `">
+          <span>` + questionDB[i].options[3] + `</span>
         </div>
-      </div>`;
+      </div>
+    </div>`;
     styleResult(i);
   }
   console.log(userName)
@@ -240,5 +247,17 @@ function styleResult(i) {
       document.querySelector(".result #icon" + i + "").innerHTML =
         `<p class="icon-false">Wrong</p><i class="fa-solid fa-circle-xmark ms-1 icon-false"></i></span>`;
     }
+  }
+}
+
+function darkMode() {
+  var bodyElement = document.body
+  bodyElement.classList.toggle("dark")
+
+  var toggleButton = document.querySelector(".toggle-dark .btn")
+  if (toggleButton.innerHTML === `<i class="bi bi-moon-fill"></i>`) {
+    toggleButton.innerHTML = `<i class="bi bi-brightness-high-fill"></i>`
+  } else {
+    toggleButton.innerHTML = `<i class="bi bi-moon-fill"></i>`
   }
 }
